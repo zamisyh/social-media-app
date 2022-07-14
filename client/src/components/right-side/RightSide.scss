@@ -1,0 +1,16 @@
+.right-side{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .nav-icons{
+        margin-top: 1rem;
+        display: flex;
+        justify-content: space-between;
+
+        .img-nav-icons{
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+    }
+}
