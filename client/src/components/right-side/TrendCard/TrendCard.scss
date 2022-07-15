@@ -1,1 +1,26 @@
-@import '../../../common/colors.scss'
+@import '../../../common/colors.scss';
+
+.trend-cards{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: $cardColor;
+    padding: 1rem;
+    border-radius: 1rem;
+    padding-left: 2rem;
+
+    .trend{
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        span:nth-of-type(1){
+            font-weight: bold;
+        }
+
+        span:nth-of-type(2){
+            font-size: 13px;
+        }
+    }
+
+}

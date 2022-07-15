@@ -1,3 +1,5 @@
+@import '../../common/colors.scss';
+
 .right-side{
     display: flex;
     flex-direction: column;
@@ -12,5 +14,23 @@
             width: 1.5rem;
             height: 1.5rem;
         }
+    }
+
+    .button{
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        background: $buttonBg;
+        transition: all 100ms ease-out;
+        height: 2.5rem;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .button:hover{
+        cursor: pointer;
+        color: $orange;
+        background: transparent;
+        border: 2px solid $orange;
     }
 }
