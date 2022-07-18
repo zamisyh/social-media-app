@@ -15,7 +15,7 @@ const PostComponent = ({data}) => {
             <img src={Share} alt="" />
         </div>
 
-        <span>{data.likes} likes</span>
+        <span style={{ fontSize: '14px', color:'gray' }}>{data.likes} likes</span>
         <div className="detail">
             <span>
                 <b>{data.name}</b>

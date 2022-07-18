@@ -4,37 +4,53 @@ import Profile from '../../../img/profileImg.jpg'
 import './ProfileCard.scss'
 
 const ProfileCard = () => {
-  return (
-    <div className="profile-card">
-        <div className="profile-images">
-            <img src={Cover} alt="Background" />
-            <img src={Profile} alt="Background" />
-        </div>
-        <div className="profile-name">
-            <span>Zamzam Saputra</span>
-            <span>Sofware Engineer</span>
-        </div>
-        <div className="follow-status">
-            <hr />
-            <div>
-                <div className="follow">
-                    <span>7,000</span>
-                    <span>Followings</span>
-                </div>
-                <div className="vl"></div>
-                <div className="follow">
-                    <span>5</span>
-                    <span>Followers</span>
-                </div>
+    const profilePage = true;
+    
+    return (
+        <div className="profile-card">
+            <div className="profile-images">
+                <img src={Cover} alt="Background" />
+                <img src={Profile} alt="Background" />
             </div>
-            <hr />
-        </div>
+            <div className="profile-name">
+                <span>Zamzam Saputra</span>
+                <span>Sofware Engineer</span>
+            </div>
+            <div className="follow-status">
+                <hr />
+                <div>
+                    <div className="follow">
+                        <span>7,000</span>
+                        <span>Followings</span>
+                    </div>
+                    <div className="vl"></div>
+                    <div className="follow">
+                        <span>5</span>
+                        <span>Followers</span>
+                    </div>
+                    {profilePage && (
+                    <>
+                        <div className="vl">
 
-        <span className="profile-my">
-            My Profile
-        </span>
-    </div>
-  )
+                        </div>
+                        
+                        <div className="follow">
+                            <span>3</span>
+                            <span>Posts</span>
+                        </div>
+                    </>
+                )}
+                </div>
+                <hr />
+            </div>
+
+            {profilePage ? '' : <span className="profile-my">
+                My Profile
+            </span>}
+
+         
+        </div>
+    )
 }
 
 export default ProfileCard
