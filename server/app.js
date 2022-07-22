@@ -1,5 +1,7 @@
 const { express, cors, colors, http, env, bodyParser } = require('./libs/package')
 const connectDB = require('./config/connection')
+const auth = require('./routers/auth.router')
+
 
 // Call Env
 env.config({
@@ -19,6 +21,8 @@ app.use(cors({
     origin: '*'
 }))
 
+
+app.use('/api/v1/auth', auth)
 app.all('*', (req, res) => {
     res.send({
         status: 404,

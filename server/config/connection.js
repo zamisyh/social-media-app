@@ -2,7 +2,7 @@ const { mongoose, colors } = require('../libs/package')
 
 const connectDB = async () => {
     try {
-        const conn = await mongoose.connect(process.env.MONGO_ATLAS_URL, {
+        const conn = await mongoose.connect(process.env.MONGO_URL+"/"+process.env.MONGO_DB, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
