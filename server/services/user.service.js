@@ -1,3 +1,4 @@
+const result = require('../helpers/templates/wrap-response')
 const UserModel = require('../models/user.model')
 
 exports.userRegisterService = async (req, res) => {
@@ -12,7 +13,7 @@ exports.userRegisterService = async (req, res) => {
 
     try {
         await newUser.save()
-        res.status(201).json(newUser)
+        return res.status(201).json(result(201, true, newUser, 'Successfully create user'))
     } catch (error) {
         res.status(500).json({
             message: error.message
