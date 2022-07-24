@@ -1,6 +1,7 @@
 const { express, cors, colors, http, env, bodyParser } = require('./libs/package')
 const connectDB = require('./config/connection')
-const auth = require('./routers/auth.router')
+const auth = require('./routers/auth.router');
+const { hashPassword } = require('./helpers/bcrypt');
 
 
 // Call Env
