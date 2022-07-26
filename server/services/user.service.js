@@ -40,6 +40,23 @@ exports.updateUserIdService = async (req, res, next) => {
             return res.status(500).json(result(500, false, [], error.message))
         }
     }else{
-        return res.status(500).json(result(500, false, [], error.message))
+        return res.status(500).json(result(500, false, [], "Access danied! You can only update your own profile"))
+    }
+}
+
+//delete user id
+exports.deleteUserIdService = async (req, res, next) => {
+    const id = req.params.id
+    const { currentUserId, currentUserAdminStatus } = req.body
+
+    if (currentUserId === id || currentUserAdminStatus) {
+        try {
+            const user = await UserModel.findByIdAndDelete(id)
+            return res.status(200).json(result(200, true, user, "Succesfully delete account"))
+        } catch (error) {
+            return res.status(500).json(result(500, false, [], error.message))
+        }
+    } else {
+        return res.status(500).json(result(500, false, [], "Access danied! You can only delete your own profile"))
     }
 }
