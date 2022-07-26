@@ -3,7 +3,8 @@ const {
     updateUserId, 
     deleteUserId, 
     getAllUser, 
-    followUser
+    followUser,
+    unfollowUser
 } = require('../controllers/user.controller');
 
 const { express } = require('../libs/package')
@@ -14,6 +15,8 @@ router.put('/:id', updateUserId)
 router.delete('/:id', deleteUserId)
 router.get('/', getAllUser)
 router.put('/:id/follow', followUser)
+router.put('/:id/unfollow', unfollowUser)
+
 
 
 module.exports = router

@@ -102,5 +102,37 @@ exports.followUserService = async (req, res, next) => {
             return res.status(500).json(result(500, false, [], error.message))
         }
     }
-
 }
+
+//unfollow a user
+exports.unfollowUserService = async (req, res, next) => {
+    const id = req.params.id
+    const { currentUserId } = req.body
+
+    if (currentUserId === id) {
+        return res.status(403).json(result(403, false, [], "Action Forbidden"))
+    } else {
+        try {
+            const followUser = await UserModel.findById(id)
+            const followingUser = await UserModel.findById(currentUserId)
+
+            if (followUser.followers.includes(currentUserId)) {
+                await followUser.updateOne({
+                    $pull: {followers: currentUserId}
+                })
+                await followingUser.updateOne({
+                    $pull: {following: id}
+                })
+
+                return res.status(200).json("User Unfollowed!")
+
+            } else {
+                return res.status(403).json("User is not followed!")
+
+            }
+        } catch (error) {
+            return res.status(500).json(result(500, false, [], error.message))
+        }
+    }
+}
+
