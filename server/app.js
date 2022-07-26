@@ -1,6 +1,7 @@
 const { express, cors, colors, http, env, bodyParser } = require('./libs/package')
 const connectDB = require('./config/connection')
 const auth = require('./routers/auth.router');
+const user = require('./routers/user.router')
 const { hashPassword } = require('./helpers/bcrypt');
 
 
@@ -24,6 +25,7 @@ app.use(cors({
 
 
 app.use('/api/v1/auth', auth)
+app.use('/api/v1/user', user)
 app.all('*', (req, res) => {
     res.send({
         status: 404,
