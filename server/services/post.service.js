@@ -66,3 +66,30 @@ exports.deletePostIdService = async (req, res, next) => {
 
     }
 }
+
+
+//like post
+exports.likePostService = async (req, res, next) => {
+    const post_id = req.params.id
+
+    try {
+        const post = await PostModel.findById(post_id)
+
+        if (!post.likes.includes(req.body.user_id)) {
+            await post.updateOne({
+                $push: { likes: req.body.user_id }
+            })
+
+            return res.status(200).json(result(200, true, post, 'Post liked'))
+        }else{
+            await post.updateOne({
+                $pull: { likes: req.body.user_id }
+            })
+
+            return res.status(200).json(result(200, true, post, 'Post Unliked'))
+
+        }
+    } catch (error) {
+        return res.status(500).json(result(500, false, [], error.message))
+    }
+}
