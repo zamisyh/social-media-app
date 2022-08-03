@@ -59,4 +59,8 @@
         border: 2px solid $orange;
     }
 
+    .button:disabled{
+        background: silver;
+        pointer-events: none;
+    }
 }

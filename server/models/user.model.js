@@ -2,7 +2,7 @@ const { mongoose} = require('../libs/package')
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, "Username required"]
+        required: [true, "Username required"],
     },
     password: {
         type: String,

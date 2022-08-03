@@ -1,4 +1,4 @@
-const { createPost, getIdPost, updatePostId, deletePostId, likePost } = require('../controllers/post.controller')
+const { createPost, getIdPost, updatePostId, deletePostId, likePost, getTimelinePost } = require('../controllers/post.controller')
 const { express } = require('../libs/package')
 const router = express.Router()
 
@@ -7,5 +7,6 @@ router.get('/:id', getIdPost)
 router.put('/:id', updatePostId)
 router.delete('/:id', deletePostId)
 router.put('/:id/like', likePost)
+router.get('/:id/timeline', getTimelinePost)
 
 module.exports = router

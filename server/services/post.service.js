@@ -1,4 +1,5 @@
 const PostModel = require('../models/post.model')
+const UserModel = require('../models/user.model')
 const { mongoose } = require('../libs/package')
 const result = require('../helpers/templates/wrap-response')
 
@@ -89,6 +90,39 @@ exports.likePostService = async (req, res, next) => {
             return res.status(200).json(result(200, true, post, 'Post Unliked'))
 
         }
+    } catch (error) {
+        return res.status(500).json(result(500, false, [], error.message))
+    }
+}
+
+exports.getTimelinePostService = async (req, res, next) => {
+    const user_id = req.params.id
+
+    try {
+        
+        const currentUserPost = await PostModel.find({user_id: user_id})
+        const followingPosts = await UserModel.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(user_id)
+                }
+            }, {
+                $lookup: {
+                    from: "posts",
+                    localField: "following",
+                    foreignField: "user_id",
+                    as: "followingPosts"
+                }
+            }, {
+                $project: {
+                    followingPosts: 1,
+                    _id: 0
+                }
+            }
+        ])
+
+        return res.status(200).json(result(200, true, currentUserPost.concat(...followingPosts), 'Succesfully fetch data'))
+
     } catch (error) {
         return res.status(500).json(result(500, false, [], error.message))
     }
