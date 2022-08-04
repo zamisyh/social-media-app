@@ -1,15 +1,28 @@
 const { json } = require("body-parser")
 
-const result = (status, success = true, data, message) => {
+const result = (status, success, data, message, token) => {
     let obj = new Object()
 
-    obj = {
-        type: 'object',
-        status: status,
-        properties: {
-            success: success,
-            message: message,
-            data: data
+    if (token === undefined ) {
+        obj = {
+            type: 'object',
+            status: status,
+            properties: {
+                success: success,
+                message: message,
+                data: data
+            }
+        }
+    } else {
+        obj = {
+            type: 'object',
+            status: status,
+            properties: {
+                token: token,
+                success: success,
+                message: message,
+                data: data
+            }
         }
     }
 

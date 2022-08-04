@@ -2,6 +2,7 @@ const result = require('../helpers/templates/wrap-response')
 const UserModel = require('../models/user.model')
 const { bcrypt } = require('../libs/package')
 const { hashPassword, comparePassword } = require('../helpers/bcrypt')
+const { generateJWTToken } = require('../middleware/jwt/generate-token.middleware')
 
 exports.userRegisterService = async (req, res) => {
     const { username, password, first_name, last_name } = req.body
@@ -17,8 +18,17 @@ exports.userRegisterService = async (req, res) => {
     })
 
     try {
-        await newUser.save()
-        return res.status(201).json(result(201, true, newUser, 'Successfully create user'))
+        const oldUser = await UserModel.findOne({username: username})
+        if (oldUser) {
+            return res.status(400).json(result(400, false, [], "Username is already registered"))
+        } else {
+            const user = await newUser.save()
+            const token = generateJWTToken({
+                username: user.username,
+                id: user._id
+            })
+            return res.status(201).json(result(201, true, user, 'Successfully create user', token))
+        }
     } catch (error) {
         return res.status(500).json(result(500, false, [], error.message))
     }
@@ -32,12 +42,19 @@ exports.userLoginService = async (req, res, next) => {
 
         if (user) {
             const checkPassword = await comparePassword(password, user.password)
+
+            if (!checkPassword) {
+                res.status(400).json(result(400, false, [], "Wrong password"))
+            } else {
+                const token = generateJWTToken({
+                    username: user.username,
+                    id: user._id
+                })
+                res.status(200).json(result(200, true, user, 'Succesfully login', token))
+            }
             
-            checkPassword ? 
-                res.status(200).json(result(200, true, user, 'Succesfully login'))
-            : res.status(500).json(result(500, false, [], error.message))
         }else{
-            res.status(500).json(result(500, false, [], error.message))
+            res.status(500).json(result(500, false, [], "No User Found"))
         }
 
     } catch (error) {
