@@ -17,15 +17,15 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={user ? <Navigate to="home" /> : <Navigate to="auth" />}
+          element={user.length !== 0 ? <Navigate to="home" /> : <Navigate to="auth" />}
         />
         <Route 
           path="/home"
-          element={user ? <Home /> : <Navigate to="../auth" />}
+          element={user.length !== 0 ? <Home /> : <Navigate to="../auth" />}
         />
         <Route
           path="/auth"
-          element={user ? <Navigate to="../home" /> : <Auth/>}
+          element={user.length !== 0 ? <Navigate to="../home" /> : <Auth/>}
         />
       </Routes>
     </div>
