@@ -13,6 +13,7 @@ import {
   UilTimes
 } from '@iconscout/react-unicons'
 import { uploadImageAction } from '../../../actions/upload.action'
+import { uploadPostAction } from '../../../actions/ post.action'
 
 const PostShare = () => {
   const css = {
@@ -56,10 +57,10 @@ const handleSubmit = (e) => {
         } catch (error) {
             console.log(error)
         }
-
-    } else {
-          
     }
+
+    dispatch(uploadPostAction(newPost))
+
   }
 
   return (
