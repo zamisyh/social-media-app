@@ -1,8 +1,9 @@
-const { express, cors, colors, http, env, bodyParser } = require('./libs/package')
+const { express, cors, colors, http, env, bodyParser, path } = require('./libs/package')
 const connectDB = require('./config/connection')
 const auth = require('./routers/auth.router');
 const user = require('./routers/user.router')
 const post = require('./routers/post.router')
+const upload = require('./routers/upload.router')
 
 const { hashPassword } = require('./helpers/bcrypt');
 
@@ -16,11 +17,8 @@ env.config({
 connectDB();
 
 const app = express()
-app.use(express.json({
-    limit: '30mb',
-    extended: true
-}))
-
+app.use(express.json({ limit: '30mb', extended: true }))
+app.use(express.static(path.join(__dirname)))
 app.use(cors({
     origin: '*'
 }))
@@ -29,6 +27,7 @@ app.use(cors({
 app.use('/api/v1/auth', auth)
 app.use('/api/v1/user', user)
 app.use('/api/v1/post', post)
+app.use('/api/v1/uploads', upload)
 app.all('*', (req, res) => {
     res.send({
         status: 404,

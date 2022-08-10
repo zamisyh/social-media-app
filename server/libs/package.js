@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
 const bodyParser = require('body-parser')
+const multer = require('multer');
 
 module.exports = {
     express,
@@ -23,5 +24,6 @@ module.exports = {
     jwt,
     asyncHandler,
     bcrypt,
-    bodyParser
+    bodyParser,
+    multer
 }

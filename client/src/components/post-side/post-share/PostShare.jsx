@@ -3,6 +3,7 @@ import React, { useState, useRef } from 'react'
 import './PostShare.scss'
 import ProfileImage from '../../../img/profileImg.jpg'
 import color from './PostShare.scss'
+import { useDispatch, useSelector } from 'react-redux'
 
 import {
   UilScenery,
@@ -11,6 +12,7 @@ import {
   UilSchedule,
   UilTimes
 } from '@iconscout/react-unicons'
+import { uploadImageAction } from '../../../actions/upload.action'
 
 const PostShare = () => {
   const css = {
@@ -20,15 +22,43 @@ const PostShare = () => {
     schedule: color.schedule,
   }
 
+  const dispatch = useDispatch()
+
   const [image, setImage] = useState(null)
   const imageRef = useRef()
+  const descriptionRef = useRef()
+  const user = useSelector((state) => state.AUTH_REDUCER.auth)
 
   const onImageChange = (e) => {
     if(e.target.files && e.target.files[0]){
         let img = e.target.files[0]
-        setImage({
-            image: URL.createObjectURL(img)
-        })
+        setImage(img)
+    }
+  }
+
+const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const newPost = {
+        user_id : user.properties.data._id,
+        description: descriptionRef.current.value
+    }
+
+    if (image) {
+        const data = new FormData()
+        const fileName = Date.now() + image.name
+        data.append("name", fileName)
+        data.append("file", image)
+        newPost.image = fileName
+        
+        try {
+            dispatch(uploadImageAction(data))
+        } catch (error) {
+            console.log(error)
+        }
+
+    } else {
+          
     }
   }
 
@@ -36,7 +66,13 @@ const PostShare = () => {
     <div className="post-share">
         <img className="profile-photo" src={ProfileImage} alt="" />
         <div className="container-input">
-            <input type="text" placeholder="What's happening ?" />
+            <input
+                ref={descriptionRef}
+                required 
+                type="text" 
+                placeholder="What's happening ?" 
+
+            />
             <div className="container-post-option">
                 <div className="option" style={{ color: css.photo }}
                     onClick={() => imageRef.current.click()}
@@ -56,7 +92,7 @@ const PostShare = () => {
                     <UilSchedule />
                     Schedule
                 </div>
-                <button className="button ps-button">Share</button>
+                <button onClick={handleSubmit} className="button ps-button">Share</button>
 
                 <div style={{ display: 'none' }}>
                     <input type="file" name="myImage" ref={imageRef} onChange={onImageChange} />
@@ -66,7 +102,7 @@ const PostShare = () => {
             { image && (
                 <div className="priview-image">
                     <UilTimes className="btn-times" onClick={() => setImage(null) } />
-                    <img className="image-priview" src={image.image} alt=""/>
+                    <img className="image-priview" src={URL.createObjectURL(image)} alt=""/>
                 </div>
             )}
 
