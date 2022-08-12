@@ -6,7 +6,7 @@ const TrendCard = () => {
 
     const renderList = dataTrend.map((trend, id) => {
         return(
-            <div className="trend" id={id}>
+            <div key={id} className="trend" id={id}>
                 <span>#{trend.name}</span>
                 <span>{trend.shares}k shares</span>
             </div>

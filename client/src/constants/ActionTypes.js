@@ -9,3 +9,9 @@ export const PostActionTypes = {
     UPLOAD_SUCCESS: "UPLOAD_SUCCESS",
     UPLOAD_FAIL: "UPLOAD_FAIL"
 }
+
+export const GetTimelinePostActionTypes = {
+    RETREIVING_START: "RETREIVING_START",
+    RETREIVING_SUCCESS: "RETREIVING_SUCCESS",
+    RETREIVING_FAIL: "RETREIVING_FAIL",
+}

@@ -4,6 +4,9 @@ import './PostShare.scss'
 import ProfileImage from '../../../img/profileImg.jpg'
 import color from './PostShare.scss'
 import { useDispatch, useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+
 
 import {
   UilScenery,
@@ -24,11 +27,14 @@ const PostShare = () => {
   }
 
   const dispatch = useDispatch()
+  const MySwal = withReactContent(Swal)
+
 
   const [image, setImage] = useState(null)
   const imageRef = useRef()
   const descriptionRef = useRef()
   const user = useSelector((state) => state.AUTH_REDUCER.auth)
+  const loading = useSelector((state) => state.POST_REDUCER.loading)
 
   const onImageChange = (e) => {
     if(e.target.files && e.target.files[0]){
@@ -47,11 +53,14 @@ const handleSubmit = (e) => {
 
     if (image) {
         const data = new FormData()
-        const fileName = Date.now() + image.name
+        const extensionFile = image.name.split('.').pop();
+        const fileName = Date.now() + '-' + Math.round(Math.random() * 1E9) + "." + extensionFile
         data.append("name", fileName)
         data.append("file", image)
+
+       
         newPost.image = fileName
-        
+     
         try {
             dispatch(uploadImageAction(data))
         } catch (error) {
@@ -60,6 +69,14 @@ const handleSubmit = (e) => {
     }
 
     dispatch(uploadPostAction(newPost))
+    setImage(null)
+    descriptionRef.current.value = ""
+    MySwal.fire({
+        title: <strong>Good job!</strong>,
+        html: "Succesfully uploaded new post!",
+        icon: 'success'
+    })
+    
 
   }
 
@@ -93,7 +110,12 @@ const handleSubmit = (e) => {
                     <UilSchedule />
                     Schedule
                 </div>
-                <button onClick={handleSubmit} className="button ps-button">Share</button>
+                <button 
+                    onClick={handleSubmit} 
+                    disabled={loading} 
+                    className="button ps-button">
+                    { loading ? "Loading..." : "Share" }
+                </button>
 
                 <div style={{ display: 'none' }}>
                     <input type="file" name="myImage" ref={imageRef} onChange={onImageChange} />

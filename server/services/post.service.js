@@ -120,8 +120,15 @@ exports.getTimelinePostService = async (req, res, next) => {
                 }
             }
         ])
-
-        return res.status(200).json(result(200, true, currentUserPost.concat(...followingPosts), 'Succesfully fetch data'))
+        
+    
+        return res.status(200).json(result(
+            200, 
+            true, 
+            currentUserPost.concat(...followingPosts[0].followingPosts).sort((a, b) => {
+                return new Date(b.createdAt) - new Date(a.createdAt);
+              }), 
+            'Succesfully fetch data'))
 
     } catch (error) {
         return res.status(500).json(result(500, false, [], error.message))
