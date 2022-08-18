@@ -7,3 +7,7 @@ export const uploadPostService = (url, data) => {
 export const getTimelinePostService = (id) => {
     return postApi.get(`${id}/timeline`)
 }
+
+export const likePostService = (id, user_id) => {
+    return postApi.put(`/${id}/like`, {user_id: user_id})
+}

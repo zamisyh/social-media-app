@@ -5,7 +5,7 @@ import ProfileImage from '../../../img/profileImg.jpg'
 import color from './PostShare.scss'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+// import withReactContent from 'sweetalert2-react-content'
 
 
 import {
@@ -27,7 +27,6 @@ const PostShare = () => {
   }
 
   const dispatch = useDispatch()
-  const MySwal = withReactContent(Swal)
 
 
   const [image, setImage] = useState(null)
@@ -70,12 +69,7 @@ const handleSubmit = (e) => {
 
     dispatch(uploadPostAction(newPost))
     setImage(null)
-    descriptionRef.current.value = ""
-    MySwal.fire({
-        title: <strong>Good job!</strong>,
-        html: "Succesfully uploaded new post!",
-        icon: 'success'
-    })
+  
     
 
   }

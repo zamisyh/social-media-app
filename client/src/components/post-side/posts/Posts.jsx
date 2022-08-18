@@ -12,7 +12,7 @@ const Posts = () => {
     const user = useSelector((state) => state.AUTH_REDUCER.auth)
     const posts = useSelector((state) => state.POST_REDUCER.posts)
     const timeline = useSelector((state) => state.TIMELINE_REDUCER.timeline.properties.data)
-    
+
 
     useEffect(() => {
         dispatch(getTimelinePostAction(user.properties.data._id))
@@ -20,7 +20,7 @@ const Posts = () => {
 
     let renderList = null;
 
-    if (timeline !== null) {
+    if (timeline.length > 1) {
         renderList = timeline.map((post, id) => {
             return <PostComponent key={id} data={post} id={id} />
         })
